@@ -10,18 +10,17 @@ Built with Next.js (the website) and Supabase (the database and logins), with an
 
 ## Setup checklist
 
-### 1. Buy a domain
+### 1. Address
 
-Buy something like `mcposted.com` from Cloudflare, Namecheap, or Porkbun. **Don't use "mccallie" anywhere in the domain** (Blue Book p. 58).
+The site runs free at **https://mcposted.vercel.app**. No domain purchase needed. (You can add a custom domain later in Vercel under Settings → Domains.)
 
-### 2. Set up email sending (Resend)
+### 2. Set up login emails (free, with Gmail)
 
-Supabase's built-in email only sends to your own account, so real students need this step.
+Login codes are sent from a Gmail account made just for McPosted. Gmail's own servers send them, so school inboxes trust them. The limit is a few hundred emails a day, which is plenty because each student only needs a code when they sign in on a new device.
 
-1. Sign up at resend.com.
-2. Go to **Domains → Add Domain** and enter your domain.
-3. Resend shows a few DNS records. Add them where you bought the domain. Verification can take a few minutes up to a day.
-4. Go to **API Keys → Create API Key** and copy it somewhere safe.
+1. Create a new Gmail account just for the app, like `mcposted.codes@gmail.com`. Don't use your personal email.
+2. In that account, turn on **2-Step Verification** (myaccount.google.com → Security).
+3. Go to **myaccount.google.com/apppasswords**, create an app password named `Supabase`, and copy the 16-letter password. Google only shows it once.
 
 ### 3. Create the database (Supabase)
 
@@ -29,11 +28,11 @@ Supabase's built-in email only sends to your own account, so real students need 
 2. Open **SQL Editor → New query**, paste in all of `supabase/schema.sql`, and click **Run**. It should say "Success."
 3. Go to **Authentication → Sign In / Providers → Email**. Make sure Email is on, and set the email OTP length to **6**.
 4. Go to **Authentication → Emails → SMTP Settings**, turn on custom SMTP, and enter:
-   - Host: `smtp.resend.com`
+   - Host: `smtp.gmail.com`
    - Port: `465`
-   - Username: `resend`
-   - Password: your Resend API key
-   - Sender email: `login@yourdomain.com`
+   - Username: the McPosted Gmail address
+   - Password: the 16-letter app password
+   - Sender email: the McPosted Gmail address
    - Sender name: `McPosted`
 5. Go to **Authentication → Emails → Templates**. Edit **both** "Confirm signup" and "Magic Link" so they send the code instead of a link:
    - Subject: `Your McPosted code`
@@ -74,8 +73,8 @@ Without this key the app still works, but every post waits for a human moderator
    | `LUNCH_RATINGS_OPEN_AT` | `13:40` (when lunch ratings open, 24-hour time) |
 
 4. Click **Deploy**. It takes a couple of minutes.
-5. Go to **Settings → Domains** and add your domain, then follow the DNS steps Vercel shows.
-6. Back in Supabase, go to **Authentication → URL Configuration** and set **Site URL** to `https://yourdomain.com`.
+5. Your site is at `https://mcposted.vercel.app`.
+6. Back in Supabase, go to **Authentication → URL Configuration** and set **Site URL** to `https://mcposted.vercel.app`.
 
 ### 7. Make yourself the admin
 
